@@ -59,7 +59,7 @@ Now navigate through the initial setup wizard.
 
 Next steps
 ----------
-You should probably install the `os-virtualbox` plugin so you can cleanly shutdown and startup
+You should install the `os-virtualbox` plugin so you can cleanly shutdown and startup
 the system with `vagrant halt` and `vagrant up`, respectively.
 
 Then probably register an SSH public key for the root user, enable root login via SSH and
