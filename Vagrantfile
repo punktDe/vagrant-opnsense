@@ -3,8 +3,7 @@ Vagrant.configure(2) do |config|
   # Which base box to use
   $opnsense_box = 'punktde/freebsd-121-ufs'
 
-  # User settable  box parameters here
-  $vagrant_mount_path = '/var/vagrant'
+  # User settable box parameters here
   $virtual_machine_ip = '192.168.1.1'
 
   # Disable folder sharing
