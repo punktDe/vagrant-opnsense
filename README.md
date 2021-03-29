@@ -69,4 +69,4 @@ Enjoy!
 
 ToDo
 ----
-* Find out how to the the network interface switch via Vagrant configuration if possible.
+* Find out how to do the network interface switch via Vagrant configuration if possible.
