@@ -1,5 +1,5 @@
-Vagrant project to bootstrap an OPNsense plugin development environment
-=======================================================================
+Bootstrap an OPNsense plugin development environment in Vagrant
+===============================================================
 
 Requirements
 ------------
