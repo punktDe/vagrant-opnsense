@@ -65,3 +65,7 @@ Then probably register an SSH public key for the root user, enable root login vi
 change the OPNsense menu for a shell for root.
 
 Enjoy!
+
+ToDo
+----
+* Find out how to the the network interface switch via Vagrant configuration if possible.
