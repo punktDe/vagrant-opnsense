@@ -62,7 +62,7 @@ You should probably install the `os-virtualbox` plugin so you can cleanly shutdo
 the system with `vagrant halt` and `vagrant up`, respectively.
 
 Then probably register an SSH public key for the root user, enable root login via SSH and
-change the OPNsense menu for a shell for root.
+change the OPNsense menu to a shell for root.
 
 Enjoy!
 
