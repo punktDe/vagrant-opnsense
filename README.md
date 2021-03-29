@@ -46,6 +46,7 @@ Start the VirtualBox GUI and go to `Settings` for our OPNsense VM.
 Then configure the first network adapter as Host Only and pick the vboxnet you created
 in the first step:
 ![Adapter 1 Settings](img/adapter-1.png)
+
 Configure the second network adapter as NAT:
 ![Adapter 2 Settings](img/adapter-2.png)
 
