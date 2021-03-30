@@ -57,16 +57,17 @@ Connect via your browser
 Congratulations! You have a working OPNsense installation in Vagrant/Virtualbox.
 Now navigate through the initial setup wizard.
 
+Subsequent boots
+----------------
+Don't use `vagrant up` for subsequent boots of the VM until [Issue 1](https://github.com/punktDe/vagrant-opnsense/issues/1)
+is solved. Use the VirtualBox UI instead.
+
 Next steps
 ----------
 You should install the `os-virtualbox` plugin so you can cleanly shutdown and startup
-the system with `vagrant halt` and `vagrant up`, respectively.
+the system.
 
 Then probably register an SSH public key for the root user, enable root login via SSH and
 change the OPNsense menu to a shell for root.
 
 Enjoy!
-
-ToDo
-----
-* Find out how to do the network interface switch via Vagrant configuration if possible.
