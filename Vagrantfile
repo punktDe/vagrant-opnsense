@@ -16,11 +16,11 @@ Vagrant.configure(2) do |config|
   config.ssh.shell = '/bin/sh'
 
   # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://atlas.hashicorp.com/search.
+  # boxes at https://atlas.hashicorp.com/search
   config.vm.box = $opnsense_box
 
   # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
+  # using a specific IP
   config.vm.network 'private_network', ip: $virtual_machine_ip, auto_config: false
 
   # Customize build VB settings
