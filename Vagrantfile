@@ -26,15 +26,14 @@ Vagrant.configure(2) do |config|
     vb.cpus = 1
   end
 
-  # Bootstrap OPNsense on stock FreeBSD box
-  config.vm.provision 'shell', inline: <<-SHELL
+  # Copy config file so network interface order matches Vagrant's
+  config.vm.provision "file", source: "conf/config.xml", destination: "config.xml"
 
-    # do OPNsense installation
+  # Bootstrap OPNsense
+  config.vm.provision 'shell', inline: <<-SHELL
+    mkdir -p /conf
+    cp /home/vagrant/config.xml /conf
     fetch https://raw.githubusercontent.com/opnsense/update/master/bootstrap/opnsense-bootstrap.sh
     sh ./opnsense-bootstrap.sh -y
-
-    # reboot system
-    shutdown -p now
-
   SHELL
 end

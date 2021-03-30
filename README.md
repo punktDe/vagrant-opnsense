@@ -33,34 +33,12 @@ vagrant destroy
 vagrant up
 ```
 
-Adjust network settings
------------------------
-Vagrant by default configures the first network interface with the NAT network (external/WAN)
-and the second with the host-only network we created in the first step.
-
-Unfortunately OPNsense assigns its interfaces exactly the other way round.
-So we need to switch our interfaces before we can use the VM.
-
-Start the VirtualBox GUI and go to `Settings` for our OPNsense VM.
-
-Then configure the first network adapter as Host Only and pick the vboxnet you created
-in the first step:
-![Adapter 1 Settings](img/adapter-1.png)
-
-Configure the second network adapter as NAT:
-![Adapter 2 Settings](img/adapter-2.png)
-
 Connect via your browser
 ------------------------
 ![Browser](img/browser.png)
 
 Congratulations! You have a working OPNsense installation in Vagrant/Virtualbox.
 Now navigate through the initial setup wizard.
-
-Subsequent boots
-----------------
-Don't use `vagrant up` for subsequent boots of the VM until [Issue 1](https://github.com/punktDe/vagrant-opnsense/issues/1)
-is solved. Use the VirtualBox UI instead.
 
 Next steps
 ----------
