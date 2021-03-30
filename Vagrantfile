@@ -6,11 +6,14 @@ Vagrant.configure(2) do |config|
   # User settable box parameters here
   $virtual_machine_ip = '192.168.1.1'
 
-  # Disable folder sharing
+  # Disable folder sharing.
   config.vm.synced_folder '.', '/vagrant', id: 'vagrant-root', disabled: true
 
   # Enable SSH keepalive to work around https://github.com/hashicorp/vagrant/issues/516
   config.ssh.keep_alive = true
+
+  # Configure proper shell for FreeBSD
+  config.ssh.shell = '/bin/sh'
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
@@ -26,14 +29,51 @@ Vagrant.configure(2) do |config|
     vb.cpus = 1
   end
 
-  # Copy config file so network interface order matches Vagrant's
-  config.vm.provision "file", source: "conf/config.xml", destination: "config.xml"
+  # Transfer config file snippets into VM
+  config.vm.provision "file", source: "files", destination: "files"
 
   # Bootstrap OPNsense
   config.vm.provision 'shell', inline: <<-SHELL
-    mkdir -p /conf
-    cp /home/vagrant/config.xml /conf
+
+    # Download the OPNsense bootstrap script
     fetch https://raw.githubusercontent.com/opnsense/update/master/bootstrap/opnsense-bootstrap.sh
+
+    # Remove reboot command from bootstrap script
+    sed -i '' -e '/reboot$/d' opnsense-bootstrap.sh
+
+    # Start bootstrap
     sh ./opnsense-bootstrap.sh -y
+
+    # Set correct interface names so OPNsense's order matches Vagrant's
+    sed -i '' -e 's/mismatch0/em1/' /usr/local/etc/config.xml
+    sed -i '' -e 's/mismatch1/em0/' /usr/local/etc/config.xml
+
+    # Enable SSH by default
+    sed -i '' -e '/<group>admins<\\/group>/r files/ssh.xml' /usr/local/etc/config.xml
+
+    # Allow SSH on all interfaces
+    sed -i '' -e '/<filter>/r files/filter.xml' /usr/local/etc/config.xml
+
+    # Do not block private networks on WAN
+    sed -i '' -e '/<blockpriv>1<\\/blockpriv>/d' /usr/local/etc/config.xml
+
+    # Create XML config for Vagrant user
+    key=$(b64encode -r dummy <.ssh/authorized_keys | tr -d '\n')
+    echo "      <authorizedkeys>${key}</authorizedkeys>" >files/vagrant2.xml
+    cat files/vagrant[123].xml >files/vagrant.xml
+
+    # Add Vagrant user - OPNsense style
+    sed -i '' -e '/<\\/member>/r files/admins.xml' /usr/local/etc/config.xml
+    sed -i '' -e '/<\\/user>/r files/vagrant.xml' /usr/local/etc/config.xml
+
+    # Change home directory to group nobody
+    chgrp -R nobody /usr/home/vagrant
+
+    # Change sudoers file to reference user instead of group
+    sed -i '' -e 's/^%//' /usr/local/etc/sudoers.d/vagrant
+
+    # Reboot the system
+    shutdown -r now
+
   SHELL
 end

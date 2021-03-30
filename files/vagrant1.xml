@@ -1,0 +1,8 @@
+    <user>
+      <name>vagrant</name>
+      <descr>Vagrant User</descr>
+      <scope>system</scope>
+      <groupname>admins</groupname>
+      <password>*</password>
+      <uid>1001</uid>
+      <shell>/bin/sh</shell>

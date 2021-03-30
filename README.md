@@ -25,7 +25,8 @@ This will automatically
 1. download a plain FreeBSD 12.1 Vagrant box provided by [punkt.de infrastructure](https://infrastructure.punkt.de/).
 2. boot the VM.
 3. convert the VM into an OPNsense installation with the [bootstrap](https://github.com/opnsense/update/) method.
-4. reboot the resulting VM.
+4. adjust the configuration for this development environment - SSH will be enabled and permitted on all interfaces!
+5. reboot the resulting VM.
 
 Should you need to repeat this step from the start you can always
 ```
@@ -37,15 +38,30 @@ Connect via your browser
 ------------------------
 ![Browser](img/browser.png)
 
+Use the default user and password of `root/opnsense`.
+
 Congratulations! You have a working OPNsense installation in Vagrant/Virtualbox.
-Now navigate through the initial setup wizard.
+Now navigate through the initial setup wizard or skip it.
 
-Next steps
-----------
-You should install the `os-virtualbox` plugin so you can cleanly shutdown and startup
-the system.
+Connect via SSH
+---------------
+Use `vagrant ssh` to login. `sudo` will work without password.
 
-Then probably register an SSH public key for the root user, enable root login via SSH and
-change the OPNsense menu to a shell for root.
+Additional steps
+----------------
+You should install the `os-virtualbox` plugin so you can cleanly shutdown and startup the system.
+Also disable the DHCP server on LAN.
+
+Changing the LAN IP address
+---------------------------
+If you want to change the LAN network after initial deployment, e.g. because you use
+`192.168.1.0/24` already, use these steps:
+1. Change the IP address in the UI, save and apply. Use anything **but** the lowest address (.1)
+   Keep a `/24` netmask. You will lose connectivity, of course.
+2. Use `vagrant halt` to shutdown the VM. Vagrant connects via WAN, so this still works.
+3. Edit `Vagrantfile` and change `$virtual_machine_ip` to your new value.
+4. Start the VM with `vagrant up`. Vagrant will automatically create a matching host-only network
+   and use the lowest address (.1) for your development system.
+5. Use the new address to connect via browser once the VM is up and running.
 
 Enjoy!
