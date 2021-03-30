@@ -6,7 +6,7 @@ Vagrant.configure(2) do |config|
   # User settable box parameters here
   $virtual_machine_ip = '192.168.1.1'
 
-  # Disable folder sharing.
+  # Disable folder sharing
   config.vm.synced_folder '.', '/vagrant', id: 'vagrant-root', disabled: true
 
   # Enable SSH keepalive to work around https://github.com/hashicorp/vagrant/issues/516
