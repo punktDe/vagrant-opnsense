@@ -3,12 +3,14 @@ Bootstrap an OPNsense plugin development environment in Vagrant
 
 Requirements
 ------------
+
 * A system capable of running VirtualBox
 * [Vagrant](https://www.vagrantup.com)
 * [VirtualBox](https://www.virtualbox.org)
 
 Preparation
 -----------
+
 Create a host-only network in VirtualBox with an IP address in `192.168.1.0/24`
 but **not** `192.168.1.1`. This is the address your OPNsense will use for the LAN
 interface by default. Make sure DHCP is disabled on that interface.
@@ -16,12 +18,15 @@ interface by default. Make sure DHCP is disabled on that interface.
 
 Provision the VM
 ----------------
-````
+
+```sh
 git clone git@github.com:punktDe/vagrant-opnsense.git
 cd vagrant-opnsense
 vagrant up
-````
+```
+
 This will automatically
+
 1. download a plain FreeBSD 12.1 Vagrant box provided by [punkt.de infrastructure](https://infrastructure.punkt.de/).
 2. boot the VM.
 3. convert the VM into an OPNsense installation with the [bootstrap](https://github.com/opnsense/update/) method.
@@ -29,13 +34,15 @@ This will automatically
 5. reboot the resulting VM.
 
 Should you need to repeat this step from the start you can always
-```
+
+```sh
 vagrant destroy
 vagrant up
 ```
 
 Connect via your browser
 ------------------------
+
 ![Browser](img/browser.png)
 
 Use the default user and password of `root/opnsense`.
@@ -45,17 +52,21 @@ Now navigate through the initial setup wizard or skip it.
 
 Connect via SSH
 ---------------
+
 Use `vagrant ssh` to login. `sudo` will work without password.
 
 Additional steps
 ----------------
+
 You should install the `os-virtualbox` plugin so you can cleanly shutdown and startup the system.
 Also disable the DHCP server on LAN.
 
 Changing the LAN IP address
 ---------------------------
+
 If you want to change the LAN network after initial deployment, e.g. because you use
 `192.168.1.0/24` already, use these steps:
+
 1. Change the IP address in the UI, save and apply. Use anything **but** the lowest address (.1)
    Keep a `/24` netmask. You will lose connectivity, of course.
 2. Use `vagrant halt` to shutdown the VM. Vagrant connects via WAN, so this still works.
