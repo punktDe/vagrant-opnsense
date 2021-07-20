@@ -1,9 +1,13 @@
 Vagrant.configure(2) do |config|
 
-  # Which base box to use
+  # Which base box to use - this is FreeBSD 12.1 for now according to
+  # https://github.com/opnsense/update
   $opnsense_box = 'punktde/freebsd-121-ufs'
+  
+  # Which OPNsense release to install
+  $opnsense_release = '21.1'
 
-  # User settable box parameters here
+  # IP address of the firewall in the host-only network
   $virtual_machine_ip = '192.168.1.1'
 
   # Disable folder sharing
@@ -36,13 +40,13 @@ Vagrant.configure(2) do |config|
   config.vm.provision 'shell', inline: <<-SHELL
 
     # Download the OPNsense bootstrap script
-    fetch https://raw.githubusercontent.com/opnsense/update/master/bootstrap/opnsense-bootstrap.sh
+    fetch -o opnsense-bootstrap.sh https://raw.githubusercontent.com/opnsense/update/master/bootstrap/opnsense-bootstrap.sh.in
 
     # Remove reboot command from bootstrap script
     sed -i '' -e '/reboot$/d' opnsense-bootstrap.sh
 
     # Start bootstrap
-    sh ./opnsense-bootstrap.sh -y
+    sh ./opnsense-bootstrap.sh -r #{$opnsense_release} -y
 
     # Set correct interface names so OPNsense's order matches Vagrant's
     sed -i '' -e 's/mismatch0/em1/' /usr/local/etc/config.xml
