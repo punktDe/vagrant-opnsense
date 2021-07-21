@@ -16,6 +16,13 @@ but **not** `192.168.1.1`. This is the address your OPNsense will use for the LA
 interface by default. Make sure DHCP is disabled on that interface.
 ![Host Network Manager](img/vboxnet-settings.png)
 
+Selecting the OPNsense version
+------------------------------
+
+You can set the variable `$opnsense_release` to either `21.1` or `21.7` to select the matching
+major release version. This requires destruction and re-provisioning of the box if you want
+to change it after initial provisioning.
+
 Provision the VM
 ----------------
 
@@ -75,12 +82,5 @@ If you want to change the LAN network after initial deployment, e.g. because you
    and use the lowest address (.1) for your development system.
 5. Use the new address to connect via browser once the VM is up and running.
 
-Selecting the OPNsense version
-------------------------------
-
-You can set the variable `$opnsense_release` to either `21.1` or `21.7` to select the matching
-major release version. This requires destruction and re-provisioning of the box if you want
-to change it after initial provisioning.
-
-
+---
 Enjoy!
