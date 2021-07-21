@@ -48,7 +48,7 @@ Connect via your browser
 Use the default user and password of `root/opnsense`.
 
 Congratulations! You have a working OPNsense installation in Vagrant/Virtualbox.
-Now navigate through the initial setup wizard or skip it.
+Now navigate through the initial setup wizard or skip it as instructed in the UI.
 
 Connect via SSH
 ---------------
@@ -58,8 +58,8 @@ Use `vagrant ssh` to login. `sudo` will work without password.
 Additional steps
 ----------------
 
-You should install the `os-virtualbox` plugin so you can cleanly shutdown and startup the system.
-Also disable the DHCP server on LAN.
+* You should install the `os-virtualbox` plugin so you can cleanly shutdown and startup the system.
+* Also disable the DHCP server on LAN.
 
 Changing the LAN IP address
 ---------------------------
@@ -74,5 +74,13 @@ If you want to change the LAN network after initial deployment, e.g. because you
 4. Start the VM with `vagrant up`. Vagrant will automatically create a matching host-only network
    and use the lowest address (.1) for your development system.
 5. Use the new address to connect via browser once the VM is up and running.
+
+Selecting the OPNsense version
+------------------------------
+
+You can set the variable `$opnsense_release` to either `21.1` or `21.7` to select the matching
+major release version. This requires destruction and re-provisioning of the box if you want
+to change it after initial provisioning.
+
 
 Enjoy!

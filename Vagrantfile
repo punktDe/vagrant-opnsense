@@ -5,7 +5,7 @@ Vagrant.configure(2) do |config|
   $opnsense_box = 'punktde/freebsd-121-ufs'
   
   # Which OPNsense release to install
-  $opnsense_release = '21.1'
+  $opnsense_release = '21.7'
 
   # IP address of the firewall in the host-only network
   $virtual_machine_ip = '192.168.1.1'
