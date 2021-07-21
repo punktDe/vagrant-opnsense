@@ -19,9 +19,9 @@ interface by default. Make sure DHCP is disabled on that interface.
 Selecting the OPNsense version
 ------------------------------
 
-You can set the variable `$opnsense_release` to either `21.1` or `21.7` to select the matching
-major release version. This requires destruction and re-provisioning of the box if you want
-to change it after initial provisioning.
+You can set the variable `$opnsense_release` to either `21.1` or `21.7` in [Vagrantfile](Vagrantfile)
+to select the matching major release version. This requires destruction and re-provisioning of the box
+if you want to change it after initial provisioning.
 
 Provision the VM
 ----------------
@@ -29,6 +29,7 @@ Provision the VM
 ```sh
 git clone git@github.com:punktDe/vagrant-opnsense.git
 cd vagrant-opnsense
+vi Vagrantfile # adjust OPNsense version if desired
 vagrant up
 ```
 
