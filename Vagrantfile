@@ -40,7 +40,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision 'shell', inline: <<-SHELL
 
     # Download the OPNsense bootstrap script
-    fetch -o opnsense-bootstrap.sh https://raw.githubusercontent.com/opnsense/update/master/bootstrap/opnsense-bootstrap.sh.in
+    fetch -o opnsense-bootstrap.sh https://raw.githubusercontent.com/opnsense/update/#{$opnsense_release}/bootstrap/opnsense-bootstrap.sh.in
 
     # Remove reboot command from bootstrap script
     sed -i '' -e '/reboot$/d' opnsense-bootstrap.sh

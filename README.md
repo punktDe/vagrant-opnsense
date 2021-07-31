@@ -19,9 +19,10 @@ interface by default. Make sure DHCP is disabled on that interface.
 Selecting the OPNsense version
 ------------------------------
 
-You can set the variable `$opnsense_release` to either `21.1` or `21.7` in [Vagrantfile](Vagrantfile)
-to select the matching major release version. This requires destruction and re-provisioning of the box
-if you want to change it after initial provisioning.
+You can set the variable `$opnsense_release` to the desired OPNsense release e.g. `21.7` in [Vagrantfile](Vagrantfile)
+to select the matching major release version. Likewise you can set `$opnsense_box` to the base box version
+to bootstrap from. For `21.7` that is `punktde/freebsd-121-ufs`. Probably switching to 13.0 or 13.1 for
+OPNsense 22.1.
 
 Provision the VM
 ----------------
@@ -35,7 +36,7 @@ vagrant up
 
 This will automatically
 
-1. download a plain FreeBSD 12.1 Vagrant box provided by [punkt.de infrastructure](https://infrastructure.punkt.de/).
+1. download a plain FreeBSD Vagrant box provided by [punkt.de infrastructure](https://infrastructure.punkt.de/).
 2. boot the VM.
 3. convert the VM into an OPNsense installation with the [bootstrap](https://github.com/opnsense/update/) method.
 4. adjust the configuration for this development environment - SSH will be enabled and permitted on all interfaces!
