@@ -70,6 +70,23 @@ Additional steps
 * You should install the `os-virtualbox` plugin so you can cleanly shutdown and startup the system.
 * Also disable the DHCP server on LAN.
 
+Routing traffic through the firewall
+------------------------------------
+
+The firewall you just created is completely functional so you can route individual networks or
+addresses through it on your desktop system. E.g. to access my company's web page through OPNsense
+you can route our entire address range appropriately.
+
+On a Mac:
+
+```sh
+sudo route add -net 217.29.32.0/20 192.168.1.1
+```
+
+Now, when you lookup [our website](https://infrastructure.punkt.de/) in your browser the traffic
+will go through the OPNsense running in VirtualBox/Vagrant. Make sure to disable IPv6 on your Mac
+for these experiments if you have a native IPv6 connection. Otherwise the browser will prefer that.
+
 Changing the LAN IP address
 ---------------------------
 
