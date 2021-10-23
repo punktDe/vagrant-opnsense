@@ -10,8 +10,10 @@ Vagrant.configure(2) do |config|
   # IP address of the firewall in the host-only network
   $virtual_machine_ip = '192.168.1.1'
 
-  # Disable folder sharing
+  # Configure folder sharing
+  $vagrant_mount_path = '/var/vagrant'
   config.vm.synced_folder '.', '/vagrant', id: 'vagrant-root', disabled: true
+  config.vm.synced_folder '.', "#{$vagrant_mount_path}", :nfs => true, :nfs_version => 3
 
   # Enable SSH keepalive to work around https://github.com/hashicorp/vagrant/issues/516
   config.ssh.keep_alive = true
