@@ -113,8 +113,9 @@ Starting development
 ```sh
 vagrant ssh
 sudo su -
-opnsense-code -d /var/vagrant core
-opnsense-code -d /var/vagrant plugins
+opnsense-code -d /var/vagrant core    # first time will clone tools repo
+opnsense-code -d /var/vagrant core    # this will clone the OPNsense core repo proper
+opnsense-code -d /var/vagrant plugins # clone plugins repo for good measure
 ```
 
 ---
