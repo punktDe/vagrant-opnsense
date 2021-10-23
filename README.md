@@ -107,5 +107,15 @@ If you want to change the LAN network after initial deployment, e.g. because you
    and use the lowest address (.1) for your development system.
 5. Use the new address to connect via browser once the VM is up and running.
 
+Starting development
+--------------------
+
+```sh
+vagrant ssh
+sudo su -
+opnsense-code -d /var/vagrant core
+opnsense-code -d /var/vagrant plugins
+```
+
 ---
 Enjoy!
