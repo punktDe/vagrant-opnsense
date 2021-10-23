@@ -1,5 +1,8 @@
 .vagrant/
 tmp/
 core/
-tools/
 plugins/
+ports/
+src/
+tools/
+update/
