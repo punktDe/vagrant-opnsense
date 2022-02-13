@@ -2,10 +2,10 @@ Vagrant.configure(2) do |config|
 
   # Which base box to use - this is FreeBSD 12.1 for now according to
   # https://github.com/opnsense/update
-  $opnsense_box = 'punktde/freebsd-121-ufs'
+  $opnsense_box = 'punktde/freebsd-130-ufs'
   
   # Which OPNsense release to install
-  $opnsense_release = '21.7'
+  $opnsense_release = '22.1'
 
   # IP address of the firewall in the host-only network
   $virtual_machine_ip = '192.168.1.1'
@@ -27,7 +27,7 @@ Vagrant.configure(2) do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP
-  config.vm.network 'private_network', ip: $virtual_machine_ip, auto_config: false
+  config.vm.network 'private_network', ip: $virtual_machine_ip, auto_config: true
 
   # Customize build VB settings
   config.vm.provider 'virtualbox' do |vb|
