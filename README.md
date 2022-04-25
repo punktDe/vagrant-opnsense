@@ -49,6 +49,8 @@ vagrant destroy
 vagrant up
 ```
 
+**If `vagrant up` cannot connect via SSH initially, you need to apply the workaround below.**
+
 Connect via your browser
 ------------------------
 
@@ -69,6 +71,43 @@ Additional steps
 
 * You should install the `os-virtualbox` plugin so you can cleanly shutdown and startup the system.
 * Also disable the DHCP server on LAN.
+
+Work around Vagrant's broken SSH public key algorith detection
+--------------------------------------------------------------
+
+Vagrant uses a bundled Ruby based implementation for initial SSH connection to set up IP adresses,
+NFS mounts, etc. `vagrant ssh` on the contrary uses a plain command line SSH client.
+
+Unfortunately the Ruby library bogusly identifies RSA 256 and higher public key exchange algorithms
+as RSA 1 and then tries to log in with that. Which OpenSSHd in OPNsense refuses in the default configuration.
+
+So you need to adjust the supported algorithms in the UI for `vagrant up` to fully work.
+
+Find out which algorithms are supported and considered secure:
+
+```sh
+sshd -T | awk '/pubkeyacceptedalgorithms/ { print $2 }' | tr ',' '\n'
+ssh-ed25519-cert-v01@openssh.com
+ecdsa-sha2-nistp256-cert-v01@openssh.com
+ecdsa-sha2-nistp384-cert-v01@openssh.com
+ecdsa-sha2-nistp521-cert-v01@openssh.com
+sk-ssh-ed25519-cert-v01@openssh.com
+sk-ecdsa-sha2-nistp256-cert-v01@openssh.com
+rsa-sha2-512-cert-v01@openssh.com
+rsa-sha2-256-cert-v01@openssh.com
+ssh-ed25519
+ecdsa-sha2-nistp256
+ecdsa-sha2-nistp384
+ecdsa-sha2-nistp521
+sk-ssh-ed25519@openssh.com
+sk-ecdsa-sha2-nistp256@openssh.com
+rsa-sha2-512
+rsa-sha2-256
+```
+
+Explicitly list the algorithms in the advanced section of the UI but add **ssh-rsa**:
+
+![Enable RSA](img/ssh-rsa.png)
 
 Routing traffic through the firewall
 ------------------------------------
