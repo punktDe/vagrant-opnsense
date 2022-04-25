@@ -19,10 +19,9 @@ interface by default. Make sure DHCP is disabled on that interface.
 Selecting the OPNsense version
 ------------------------------
 
-You can set the variable `$opnsense_release` to the desired OPNsense release e.g. `21.7` in [Vagrantfile](Vagrantfile)
+You can set the variable `$opnsense_release` to the desired OPNsense release e.g. `22.1` in [Vagrantfile](Vagrantfile)
 to select the matching major release version. Likewise you can set `$opnsense_box` to the base box version
-to bootstrap from. For `21.7` that is `punktde/freebsd-121-ufs`. Probably switching to 13.0 or 13.1 for
-OPNsense 22.1.
+to bootstrap from. For `22.1` that is `punktde/freebsd-130-ufs`.
 
 Provision the VM
 ----------------
@@ -73,7 +72,7 @@ Additional steps
 * Also disable the DHCP server on LAN.
 
 Work around Vagrant's broken SSH public key algorithm detection
------------------------------------------------------.---------
+---------------------------------------------------------------
 
 Vagrant uses a bundled Ruby based implementation for initial SSH connection to set up IP adresses,
 NFS mounts, etc. `vagrant ssh` on the contrary uses a plain command line SSH client.
@@ -91,7 +90,6 @@ sudo sshd -T | awk '/pubkeyacceptedalgorithms/ { print $2 }' | tr ',' '\n'
 ```
 
 Explicitly list the algorithms in the advanced section of the UI but add **ssh-rsa**:
-
 ![Enable RSA](img/ssh-rsa.png)
 
 Routing traffic through the firewall
