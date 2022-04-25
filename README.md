@@ -72,8 +72,8 @@ Additional steps
 * You should install the `os-virtualbox` plugin so you can cleanly shutdown and startup the system.
 * Also disable the DHCP server on LAN.
 
-Work around Vagrant's broken SSH public key algorith detection
---------------------------------------------------------------
+Work around Vagrant's broken SSH public key algorithm detection
+-----------------------------------------------------.---------
 
 Vagrant uses a bundled Ruby based implementation for initial SSH connection to set up IP adresses,
 NFS mounts, etc. `vagrant ssh` on the contrary uses a plain command line SSH client.
@@ -86,23 +86,8 @@ So you need to adjust the supported algorithms in the UI for `vagrant up` to ful
 Find out which algorithms are supported and considered secure:
 
 ```sh
-sshd -T | awk '/pubkeyacceptedalgorithms/ { print $2 }' | tr ',' '\n'
-ssh-ed25519-cert-v01@openssh.com
-ecdsa-sha2-nistp256-cert-v01@openssh.com
-ecdsa-sha2-nistp384-cert-v01@openssh.com
-ecdsa-sha2-nistp521-cert-v01@openssh.com
-sk-ssh-ed25519-cert-v01@openssh.com
-sk-ecdsa-sha2-nistp256-cert-v01@openssh.com
-rsa-sha2-512-cert-v01@openssh.com
-rsa-sha2-256-cert-v01@openssh.com
-ssh-ed25519
-ecdsa-sha2-nistp256
-ecdsa-sha2-nistp384
-ecdsa-sha2-nistp521
-sk-ssh-ed25519@openssh.com
-sk-ecdsa-sha2-nistp256@openssh.com
-rsa-sha2-512
-rsa-sha2-256
+vagrant ssh
+sudo sshd -T | awk '/pubkeyacceptedalgorithms/ { print $2 }' | tr ',' '\n'
 ```
 
 Explicitly list the algorithms in the advanced section of the UI but add **ssh-rsa**:
