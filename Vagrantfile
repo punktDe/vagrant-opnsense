@@ -72,6 +72,9 @@ Vagrant.configure(2) do |config|
     # Do not block private networks on WAN
     sed -i '' -e '/<blockpriv>1<\\/blockpriv>/d' /usr/local/etc/config.xml
 
+    # Reset shell of Vagrant user
+    /usr/sbin/pw usermod vagrant -s /bin/sh
+
     # Create XML config for Vagrant user
     key=$(b64encode -r dummy <.ssh/authorized_keys | tr -d '\n')
     echo "      <authorizedkeys>${key}</authorizedkeys>" >files/vagrant2.xml
