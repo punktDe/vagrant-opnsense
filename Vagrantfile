@@ -2,7 +2,7 @@ Vagrant.configure(2) do |config|
 
   # Which base box to use - this is FreeBSD 12.1 for now according to
   # https://github.com/opnsense/update
-  $opnsense_box = 'punktde/freebsd-130-ufs'
+  $opnsense_box = 'punktde/freebsd-131-ufs'
   
   # Which OPNsense release to install
   $opnsense_release = '22.1'
