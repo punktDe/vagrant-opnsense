@@ -1,11 +1,10 @@
 Vagrant.configure(2) do |config|
 
-  # Which base box to use - this is FreeBSD 12.1 for now according to
-  # https://github.com/opnsense/update
+  # Which base box to use
   $opnsense_box = 'punktde/freebsd-131-ufs'
   
   # Which OPNsense release to install
-  $opnsense_release = '22.1'
+  $opnsense_release = '22.7'
 
   # IP address of the firewall in the host-only network
   $virtual_machine_ip = '192.168.1.1'
