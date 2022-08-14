@@ -48,8 +48,6 @@ vagrant destroy
 vagrant up
 ```
 
-**If `vagrant up` cannot connect via SSH initially, you need to apply the workaround below.**
-
 Connect via your browser
 ------------------------
 
@@ -70,27 +68,6 @@ Additional steps
 
 * You should install the `os-virtualbox` plugin so you can cleanly shutdown and startup the system.
 * Also disable the DHCP server on LAN.
-
-Work around Vagrant's broken SSH public key algorithm detection
----------------------------------------------------------------
-
-Vagrant uses a bundled Ruby based implementation for initial SSH connection to set up IP adresses,
-NFS mounts, etc. `vagrant ssh` on the contrary uses a plain command line SSH client.
-
-Unfortunately the Ruby library bogusly identifies RSA 256 and higher public key exchange algorithms
-as RSA 1 and then tries to log in with that. Which OpenSSHd in OPNsense refuses in the default configuration.
-
-So you need to adjust the supported algorithms in the UI for `vagrant up` to fully work.
-
-Find out which algorithms are supported and considered secure:
-
-```sh
-vagrant ssh
-sudo sshd -T | awk '/pubkeyacceptedalgorithms/ { print $2 }' | tr ',' '\n'
-```
-
-Explicitly list the algorithms in the advanced section of the UI but add **ssh-rsa**:
-![Enable RSA](img/ssh-rsa.png)
 
 Routing traffic through the firewall
 ------------------------------------
@@ -135,8 +112,7 @@ Starting development
 ```sh
 vagrant ssh
 sudo su -
-opnsense-code -d /var/vagrant core    # first time will clone tools repo
-opnsense-code -d /var/vagrant core    # this will clone the OPNsense core repo proper
+opnsense-code -d /var/vagrant core    # clone the OPNsense core repo
 opnsense-code -d /var/vagrant plugins # clone plugins repo for good measure
 ```
 
