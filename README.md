@@ -5,8 +5,8 @@ Requirements
 ------------
 
 * A system capable of running VirtualBox
-* [Vagrant](https://www.vagrantup.com)
-* [VirtualBox](https://www.virtualbox.org)
+* [Vagrant](https://www.vagrantup.com) >= 2.3.0
+* [VirtualBox](https://www.virtualbox.org) >= 6.1
 
 Preparation
 -----------
