@@ -5,16 +5,18 @@ Requirements
 ------------
 
 * A system capable of running VirtualBox
-* [Vagrant](https://www.vagrantup.com) >= 2.3.0
-* [VirtualBox](https://www.virtualbox.org) >= 6.1
+* [Vagrant](https://www.vagrantup.com) >= 2.3.4
+* [VirtualBox](https://www.virtualbox.org) >= 7.0.4
 
-Preparation
------------
+Networking considerations
+-------------------------
 
-Create a host-only network in VirtualBox with an IP address in `192.168.1.0/24`
-but **not** `192.168.1.1`. This is the address your OPNsense will use for the LAN
-interface by default. Make sure DHCP is disabled on that interface.
-![Host Network Manager](img/vboxnet-settings.png)
+VirtualBox reserves the `192.168.56.0/21` range of IPv4 addresses for host-only networking.
+The default address of your OPNsense firewall in this project is `192.168.56.56`. If that collides
+with your local infrastructure set a different one in the [Vagrantfile](Vagrantfile). Make sure
+not to pick the lowest one in the respective network, which is reserved for the host by VirtualBox.
+
+For more details see the relevant [VirtualBox documentation](https://www.virtualbox.org/manual/ch06.html#network_hostonly).
 
 Selecting the OPNsense version
 ------------------------------
@@ -79,13 +81,13 @@ you can route our entire address range appropriately.
 On a Mac:
 
 ```sh
-sudo route add -net 217.29.32.0/20 192.168.1.1
+sudo route add -net 217.29.32.0/20 192.168.56.56
 ```
 
 On Windows:
 
 ```cmd
-route ADD 217.29.32.0 MASK 255.240.0.0 192.168.1.1
+route ADD 217.29.32.0 MASK 255.240.0.0 192.168.56.56
 ```
 
 Now when you lookup [our website](https://infrastructure.punkt.de/) in your browser the traffic
@@ -95,10 +97,9 @@ for these experiments if you have a native IPv6 connection. If you don't the bro
 Changing the LAN IP address
 ---------------------------
 
-If you want to change the LAN network after initial deployment, e.g. because you use
-`192.168.1.0/24` already, use these steps:
+If you want to change the LAN network after initial deployment use these steps:
 
-1. Change the IP address in the UI, save and apply. Use anything **but** the lowest address (.1)
+1. Change the IP address in the UI, save and apply. Use anything **but** the lowest address (.1).
    Keep a `/24` netmask. You will lose connectivity, of course.
 2. Use `vagrant halt` to shutdown the VM. Vagrant connects via WAN, so this still works.
 3. Edit `Vagrantfile` and change `$virtual_machine_ip` to your new value.
@@ -113,7 +114,7 @@ Starting development
 vagrant ssh
 sudo su -
 opnsense-code -d /var/vagrant core    # clone the OPNsense core repo
-opnsense-code -d /var/vagrant plugins # clone plugins repo for good measure
+opnsense-code -d /var/vagrant plugins # clone plugins repo if desired
 ```
 
 ---

@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
   $opnsense_release = '22.7'
 
   # IP address of the firewall in the host-only network
-  $virtual_machine_ip = '192.168.1.1'
+  $virtual_machine_ip = '192.168.56.56'
 
   # Configure folder sharing
   $vagrant_mount_path = '/var/vagrant'
@@ -61,6 +61,13 @@ Vagrant.configure(2) do |config|
     sed -i '' -e '/<subnetv6>64<\\/subnetv6>/d' /usr/local/etc/config.xml
     sed -i '' -e '/<track6-interface>wan<\\/track6-interface>/d' /usr/local/etc/config.xml
     sed -i '' -e '/<track6-prefix-id>0<\\/track6-prefix-id>/d' /usr/local/etc/config.xml
+
+    # Change OPNsense LAN IP addresses to VirtualBox compatible one
+    sed -i '' -e "s/192\.168\.1\.1</#{$virtual_machine_ip}</" /usr/local/etc/config.xml
+
+    # Change DHCP range to match LAN IP address
+    lan_net=$(echo "#{$virtual_machine_ip}" | sed 's/\.[0-9]*$//')
+    sed -i '' -e "s/192\.168\.1\./${lan_net}./" /usr/local/etc/config.xml
 
     # Enable SSH by default
     sed -i '' -e '/<group>admins<\\/group>/r files/ssh.xml' /usr/local/etc/config.xml
