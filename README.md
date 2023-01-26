@@ -92,7 +92,7 @@ route ADD 217.29.32.0 MASK 255.240.0.0 192.168.56.56
 
 Now when you lookup [our website](https://infrastructure.punkt.de/) in your browser the traffic
 will go through the OPNsense running in VirtualBox/Vagrant. Make sure to disable IPv6 on your Mac
-for these experiments if you have a native IPv6 connection. If you don't the browser will prefer that.
+for these experiments if you have a native IPv6 connection. If you don't the browser will prefer IPv6 over IPv4.
 
 Changing the LAN IP address
 ---------------------------
