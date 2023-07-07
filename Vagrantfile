@@ -1,43 +1,39 @@
 Vagrant.configure(2) do |config|
 
-  # Which base box to use
-  $opnsense_box = 'punktde/freebsd-131-ufs'
-  
-  # Which OPNsense release to install
-  $opnsense_release = '23.1'
+  #
+  # General settings
+  #
 
-  # IP address of the firewall in the host-only network
-  $virtual_machine_ip = '192.168.56.56'
+  $opnsense_box = 'punktde/freebsd-131-ufs' # Which base box to use
+  $opnsense_release = '23.1'                # Which OPNsense release to install
+  $virtual_machine_ip = '192.168.56.56'     # IP address of the firewall in the host-only network
+  $vagrant_mount_path = '/var/vagrant'      # Shared path for development environment
 
-  # Configure folder sharing
-  $vagrant_mount_path = '/var/vagrant'
+  #
+  # Box configuration
+  #
+
   config.vm.synced_folder '.', '/vagrant', id: 'vagrant-root', disabled: true
   config.vm.synced_folder '.', "#{$vagrant_mount_path}", :nfs => true, :nfs_version => 3
 
-  # Enable SSH keepalive to work around https://github.com/hashicorp/vagrant/issues/516
+  config.ssh.shell = '/bin/sh'
   config.ssh.keep_alive = true
 
-  # Configure proper shell for FreeBSD
-  config.ssh.shell = '/bin/sh'
-
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://atlas.hashicorp.com/search
   config.vm.box = $opnsense_box
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP
   config.vm.network 'private_network', ip: $virtual_machine_ip, auto_config: true
 
-  # Customize build VB settings
   config.vm.provider 'virtualbox' do |vb|
     vb.memory = 4096
     vb.cpus = 1
   end
 
-  # Transfer config file snippets into VM
+  #
+  # Bootstrap OPNsense
+  #
+
   config.vm.provision "file", source: "files", destination: "files"
 
-  # Bootstrap OPNsense
   config.vm.provision 'shell', inline: <<-SHELL
 
     # Download the OPNsense bootstrap script
@@ -96,8 +92,16 @@ Vagrant.configure(2) do |config|
     # Change sudoers file to reference user instead of group
     sed -i '' -e 's/^%//' /usr/local/etc/sudoers.d/vagrant
 
-    # Reboot the system
-    shutdown -r now
+    # Display helpful message for the user
+    echo '#####################################################'
+    echo '#                                                   #'
+    echo '#  OPNsense provisioning finished - shutting down.  #'
+    echo '#  Use `vagrant up` to start your OPNsense.         #'
+    echo '#                                                   #'
+    echo '#####################################################'
+
+    # Shutdown the system
+    shutdown -p now
 
   SHELL
 end
