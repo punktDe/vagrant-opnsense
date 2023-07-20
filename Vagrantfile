@@ -4,8 +4,8 @@ Vagrant.configure(2) do |config|
   # General settings
   #
 
-  $opnsense_box = 'punktde/freebsd-131-ufs' # Which base box to use
-  $opnsense_release = '23.1'                # Which OPNsense release to install
+  $opnsense_box = 'punktde/freebsd-132-ufs' # Which base box to use
+  $opnsense_release = '23.7'                # Which OPNsense release to install
   $virtual_machine_ip = '192.168.56.56'     # IP address of the firewall in the host-only network
   $vagrant_mount_path = '/var/vagrant'      # Shared path for development environment
 
