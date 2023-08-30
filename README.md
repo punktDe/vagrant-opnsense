@@ -110,12 +110,32 @@ If you want to change the LAN network after initial deployment use these steps:
 Starting development
 --------------------
 
+Please refer to the [OPNsense tools documentation](https://github.com/opnsense/tools)
+for details on how to set up a build system. To clone the build environment into the
+`/var/vagrant` directory (mounted from your host system) from within the box use e.g.:
+
 ```sh
+# log in to box, become root - press [8] to invoke a shell from the OPNsense menu
 vagrant ssh
 sudo su -
-opnsense-code -d /var/vagrant core    # clone the OPNsense core repo
-opnsense-code -d /var/vagrant plugins # clone plugins repo if desired
+
+# install git and configure NFS mounted directories as safe
+pkg install git
+git config --global --add safe.directory /var/vagrant/core
+git config --global --add safe.directory /var/vagrant/plugins
+git config --global --add safe.directory /var/vagrant/ports
+git config --global --add safe.directory /var/vagrant/src
+git config --global --add safe.directory /var/vagrant/tools
+
+# clone the OPNsense repositories - this will take some time
+cd /var/vagrant
+git clone https://github.com/opnsense/tools
+cd tools
+env ROOTDIR=/var/vagrant make update
 ```
+
+The `.gitignore` file of this project is already configured to ignore the OPNsense
+source code. Edits and individual `git` operations can now be done on your host system.
 
 ---
 Enjoy!
