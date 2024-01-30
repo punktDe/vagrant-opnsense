@@ -21,9 +21,9 @@ For more details see the relevant [VirtualBox documentation](https://www.virtual
 Selecting the OPNsense version
 ------------------------------
 
-You can set the variable `$opnsense_release` to the desired OPNsense release e.g. `23.7` in [Vagrantfile](Vagrantfile)
+You can set the variable `$opnsense_release` to the desired OPNsense release e.g. `24.1` in [Vagrantfile](Vagrantfile)
 to select the matching major release version. Likewise you can set `$opnsense_box` to the base box version
-to bootstrap from. For `23.7` that is `punktde/freebsd-132-ufs`.
+to bootstrap from. For `24.1` that is `punktde/freebsd-132-ufs`.
 
 Provision the VM
 ----------------
