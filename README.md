@@ -31,11 +31,10 @@ Provision the VM
 ```sh
 git clone git@github.com:punktDe/vagrant-opnsense.git
 cd vagrant-opnsense
-vi Vagrantfile # adjust OPNsense version if desired
 vagrant up
 ```
 
-This will automatically
+These commands will automatically
 
 1. download a plain FreeBSD Vagrant box provided by [punkt.de infrastructure](https://infrastructure.punkt.de/).
 2. boot the VM.
