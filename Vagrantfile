@@ -4,8 +4,8 @@ Vagrant.configure(2) do |config|
   # General settings
   #
 
-  $opnsense_box = 'punktde/freebsd-132-ufs' # Which base box to use
-  $opnsense_release = '24.1'                # Which OPNsense release to install
+  $opnsense_box = 'punktde/freebsd-141-ufs' # Which base box to use
+  $opnsense_release = '24.7'                # Which OPNsense release to install
   $virtual_machine_ip = '192.168.56.56'     # IP address of the firewall in the host-only network
   $vagrant_mount_path = '/var/vagrant'      # Shared path for development environment
 
@@ -37,10 +37,15 @@ Vagrant.configure(2) do |config|
   config.vm.provision 'shell', inline: <<-SHELL
 
     # Download the OPNsense bootstrap script
-    fetch -o opnsense-bootstrap.sh https://raw.githubusercontent.com/opnsense/update/#{$opnsense_release}/src/bootstrap/opnsense-bootstrap.sh.in
+    fetch -o opnsense-bootstrap.sh https://raw.githubusercontent.com/opnsense/update/master/src/bootstrap/opnsense-bootstrap.sh.in
 
     # Remove reboot command from bootstrap script
     sed -i '' -e '/reboot$/d' opnsense-bootstrap.sh
+
+    # Remove pkg unlock command from bootstrap script, which causes an error due to an upstream bug.
+    # https://github.com/freebsd/pkg/issues/2278
+    # This won't hurt even with the bug eventually fixed, because we don't have any locked packages.
+    sed -i '' -e '/pkg unlock/d' opnsense-bootstrap.sh
 
     # Start bootstrap
     sh ./opnsense-bootstrap.sh -r #{$opnsense_release} -y
@@ -87,7 +92,7 @@ Vagrant.configure(2) do |config|
     sed -i '' -e '/<\\/user>/r files/vagrant.xml' /usr/local/etc/config.xml
 
     # Change home directory to group nobody
-    chgrp -R nobody /usr/home/vagrant
+    chgrp -R nobody /home/vagrant
 
     # Change sudoers file to reference user instead of group
     sed -i '' -e 's/^%//' /usr/local/etc/sudoers.d/vagrant
