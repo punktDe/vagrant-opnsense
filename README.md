@@ -86,7 +86,7 @@ sudo route add -net 217.29.32.0/20 192.168.56.56
 On Windows:
 
 ```cmd
-route ADD 217.29.32.0 MASK 255.240.0.0 192.168.56.56
+route ADD 217.29.32.0 MASK 255.255.240.0 192.168.56.56
 ```
 
 Now when you lookup [our website](https://infrastructure.punkt.de/) in your browser the traffic
